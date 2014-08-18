@@ -10,13 +10,18 @@ class ContactsController < ApplicationController
   end
 
   def new
+    @contact = Contact.new
     render('contacts/new.html.erb')
   end
 
   def create
-    @contact = Contact.create(:name => params[:name],
-                              :email => params[:email],
-                              :phone => params[:phone])
-    render('contacts/success.html.erb')
+    @contact = Contact.new(:name => params[:name],
+                           :email => params[:email],
+                           :phone => params[:phone])
+    if @contact.save
+      render('contacts/success.html.erb')
+    else
+      render('contacts/new.html.erb')
+    end
   end
 end
